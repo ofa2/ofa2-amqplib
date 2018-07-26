@@ -4,10 +4,6 @@ import amqplib from 'amqplib';
 export default async function lift() {
   let amqpConfig = _.get(framework, 'config.connections.amqplib');
 
-  let connection;
-  await amqplib.connect(amqpConfig).then((conn) => {
-    connection = conn;
-  });
-
-  return connection;
+  framework.amqplibConnection = await amqplib.connect(amqpConfig);
+  return framework.amqplibConnection;
 }
