@@ -26,8 +26,8 @@
     "rollup-plugin-node-resolve": "^3.3.0"
   },
   "dependencies": {
+    "amqp-connection-manager": "^2.0.0",
     "amqplib": "^0.5.2",
-    "bluebird": "^3.5.1",
     "lodash": "^4.17.10"
   }
 }

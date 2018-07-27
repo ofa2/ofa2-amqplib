@@ -1,9 +1,25 @@
 import _ from 'lodash';
-import amqplib from 'amqplib';
+import amqp from 'amqp-connection-manager';
 
-export default async function lift() {
+import { format } from './url-parser';
+
+async function lift() {
   let amqpConfig = _.get(framework, 'config.connections.amqplib');
-
-  framework.amqplibConnection = await amqplib.connect(amqpConfig);
+  let url = format(amqpConfig);
+  framework.amqplibConnection = await amqp.connect(url);
   return framework.amqplibConnection;
 }
+
+async function lower() {
+  try {
+    if (framework.amqplibConnection) {
+      await framework.amqplibConnection.close();
+    }
+  }
+  catch (e) {
+    framework.log.warn(e);
+  }
+}
+
+export { lift, lower };
+export default { lift, lower };
